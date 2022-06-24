@@ -1,2 +1,2 @@
 # elastic-beanstalk-gitops
-GitOps style deployments to Elastic Beanstalk using CFTs
+Example applications that are deployed using GitOps style deployments to Elastic Beanstalk using CFTs
