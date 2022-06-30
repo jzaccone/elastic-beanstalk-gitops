@@ -9,11 +9,15 @@ Parameters:
     Default: "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4"
     Description: A version of the Elastic Beanstalk App to deploy
     Type: String
+  ElasticBeanstalkEnvName:
+    Default: "spring-boot-gitops-env"
+    Description: EB Environment to deploy to
+    Type: String
 Resources:
   ElasticBeanstalkEnvironment:
     Type: "AWS::ElasticBeanstalk::Environment"
     Properties:
-      EnvironmentName: "Cftdeploy-from-cli-env4"
+      EnvironmentName: !Ref ElasticBeanstalkEnvName
       ApplicationName: !Ref ElasticBeanstalkApp
       VersionLabel: !Ref ElasticBeanstalkAppVersion
       TemplateName:
