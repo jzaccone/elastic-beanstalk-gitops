@@ -1,5 +1,13 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
+# TODOs automate permissions to have access to environments they create? (hard to bootstrap)
+#  add codestart-connection resource for github
+#  minimize permissions https://aws.amazon.com/blogs/security/remove-unnecessary-permissions-in-your-iam-policies-by-using-service-last-accessed-data/
+#      maybe these permissions are better than s3:*
+#  https://camsaul.com/aws/2019/04/26/redeploying-elastic-beanstalk-permissions.html
+# dynamically link inputs: app name and app version
+# add links to resources from pipelines
+
 Description: >
   AWS CloudFormation Sample Template Continuous Delievery: This template
   builds an AWS CodePipeline pipeline that implements a continuous delivery release
@@ -38,7 +46,7 @@ Metadata:
         Parameters:
           - ChangeSetName
           - StackName
-          - StackConfig
+          # - StackConfig
 
 Resources:
   ArtifactStoreBucket:
@@ -126,15 +134,21 @@ Resources:
         Version: "2012-10-17"
       Path: /
       Policies:
-        - PolicyName: CloudFormationRole
+        - PolicyName: ElasticBeanstalkRole
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Action:
+                  - "autoscaling:*"
+                  - "cloudformation:*"
+                  - "elasticbeanstalk:*"
+                  - "elasticloadbalancing:*"
+                  - "s3:*"
                   - "ec2:*"
+                  - "iam:PassRole"
+                  - "cloudwatch:*"
                 Effect: Allow
                 Resource: "*"
-
   PipelineRole:
     Type: AWS::IAM::Role
     Properties:
