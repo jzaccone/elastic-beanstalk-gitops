@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Stack to deploy spring hello world"
+Resources:
+    ElasticBeanstalkApplication:
+        Type: "AWS::ElasticBeanstalk::Application"
+        Properties:
+            ApplicationName: "CFT-deploy-from-cli"
+
+    ElasticBeanstalkApplicationVersion:
+        Type: "AWS::ElasticBeanstalk::ApplicationVersion"
+        Properties:
+            ApplicationName: !Ref ElasticBeanstalkApplication
+            SourceBundle:
+                S3Bucket: !Sub "elasticbeanstalk-${AWS::Region}-${AWS::AccountId}"
+                S3Key: "2022168gQr-demo-0.0.1-SNAPSHOT.war"
+
+    ElasticBeanstalkApplicationVersion2:
+        Type: "AWS::ElasticBeanstalk::ApplicationVersion"
+        Properties:
+            ApplicationName: !Ref ElasticBeanstalkApplication
+            Description: ""
+            SourceBundle:
+                S3Bucket: !Sub "elasticbeanstalk-${AWS::Region}-${AWS::AccountId}"
+                S3Key: "2022168sNz-demo-0.0.1-SNAPSHOT.war"

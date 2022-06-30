@@ -1,120 +1,75 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Metadata:
-    Generator: "former2"
-Description: ""
+Description: "Stack to deploy spring hello world"
+Parameters:
+  ElasticBeanstalkApp:
+    Default: "ElasticBeanstalkApplication"
+    Description: The name of the Elastic Beanstalk Application to deploy
+    Type: String
+  ElasticBeanstalkAppVersion:
+    Default: "ElasticBeanstalkApplicationVersion2"
+    Description: A version of the Elastic Beanstalk App to deploy
+    Type: String
 Resources:
-    ElasticBeanstalkApplication:
-        Type: "AWS::ElasticBeanstalk::Application"
-        Properties:
-            ApplicationName: "CFT-deploy-from-cli"
+  ElasticBeanstalkEnvironment:
+    Type: "AWS::ElasticBeanstalk::Environment"
+    Properties:
+      EnvironmentName: "Cftdeploy-from-cli-env4"
+      ApplicationName: !Ref ElasticBeanstalkApp
+      VersionLabel: !Ref ElasticBeanstalkAppVersion
+      TemplateName:
+        Ref: ElasticBeanstalkConfigurationTemplate
+      PlatformArn: !Sub "arn:aws:elasticbeanstalk:${AWS::Region}::platform/Corretto 8 running on 64bit Amazon Linux 2/3.2.15"
 
-    ElasticBeanstalkApplicationVersion:
-        Type: "AWS::ElasticBeanstalk::ApplicationVersion"
-        Properties:
-            ApplicationName: !Ref ElasticBeanstalkApplication
-            SourceBundle: 
-                S3Bucket: !Sub "elasticbeanstalk-${AWS::Region}-${AWS::AccountId}"
-                S3Key: "2022168gQr-demo-0.0.1-SNAPSHOT.war"
-
-    ElasticBeanstalkApplicationVersion2:
-        Type: "AWS::ElasticBeanstalk::ApplicationVersion"
-        Properties:
-            ApplicationName: !Ref ElasticBeanstalkApplication
-            Description: ""
-            SourceBundle: 
-                S3Bucket: !Sub "elasticbeanstalk-${AWS::Region}-${AWS::AccountId}"
-                S3Key: "2022168sNz-demo-0.0.1-SNAPSHOT.war"
-
-    ElasticBeanstalkEnvironment:
-        Type: "AWS::ElasticBeanstalk::Environment"
-        Properties:
-            EnvironmentName: "Cftdeploy-from-cli-env4"
-            ApplicationName: !Ref ElasticBeanstalkApplication
-            VersionLabel: !Ref ElasticBeanstalkApplicationVersion2
-            TemplateName:
-              Ref: ElasticBeanstalkConfigurationTemplate
-            PlatformArn: !Sub "arn:aws:elasticbeanstalk:${AWS::Region}::platform/Corretto 8 running on 64bit Amazon Linux 2/3.2.15"
-            # Tier: 
-            #     Name: "WebServer"
-            #     Type: "Standard"
-            #     Version: "1.0"
-            # CNAMEPrefix: "Cftdeploy-from-cli-env"
-            # OptionSettings:
-            # Tags: 
-            #   - 
-            #     Key: "elasticbeanstalk:environment-name"
-            #     Value: "Cftdeploy-env"
-            #   - 
-            #     Key: "elasticbeanstalk:environment-id"
-            #     Value: "e-qxcxjdq97p"
-            #   - 
-            #     Key: "Name"
-            #     Value: "Cftdeploy-env"
-
-    ElasticBeanstalkConfigurationTemplate:
-        Type: "AWS::ElasticBeanstalk::ConfigurationTemplate"
-        Properties:
-            ApplicationName: !Ref ElasticBeanstalkApplication
-            SolutionStackName: "64bit Amazon Linux 2 v3.2.15 running Corretto 8"
-            OptionSettings: 
-              - 
-                Namespace: "aws:elasticbeanstalk:environment"
-                OptionName: "EnvironmentType"
-                Value: "LoadBalanced"              
-              - 
-                ResourceName: "AWSEBEC2LaunchTemplate"
-                Namespace: "aws:autoscaling:launchconfiguration"
-                OptionName: "IamInstanceProfile"
-                Value: "aws-elasticbeanstalk-ec2-role"
-              - 
-                ResourceName: "AWSEBAutoScalingGroup"
-                Namespace: "aws:autoscaling:asg"
-                OptionName: "MaxSize"
-                Value: "4"
-              - 
-                ResourceName: "AWSEBAutoScalingGroup"
-                Namespace: "aws:autoscaling:asg"
-                OptionName: "MinSize"
-                Value: "1"
-              - 
-                Namespace: "aws:autoscaling:launchconfiguration"
-                OptionName: "InstanceType"
-                Value: "t2.micro"
-              - 
-                Namespace: "aws:cloudformation:template:parameter"
-                OptionName: "EnvironmentVariables"
-                Value: "M2=/usr/local/apache-maven/bin,M2_HOME=/usr/local/apache-maven,GRADLE_HOME=/usr/local/gradle"
-              - 
-                Namespace: "aws:cloudformation:template:parameter"
-                OptionName: "InstancePort"
-                Value: "80"
-              - 
-                Namespace: "aws:cloudformation:template:parameter"
-                OptionName: "InstanceTypeFamily"
-                Value: "t2"
-              - 
-                Namespace: "aws:ec2:instances"
-                OptionName: "InstanceTypes"
-                Value: "t2.micro, t2.small"
-              - 
-                Namespace: "aws:elasticbeanstalk:application:environment"
-                OptionName: "M2"
-                Value: "/usr/local/apache-maven/bin"
-              - 
-                Namespace: "aws:elasticbeanstalk:application:environment"
-                OptionName: "M2_HOME"
-                Value: "/usr/local/apache-maven"
-              - 
-                Namespace: "aws:elasticbeanstalk:command"
-                OptionName: "DeploymentPolicy"
-                Value: "AllAtOnce"
-              - 
-                ResourceName: "AWSEBV2LoadBalancerTargetGroup"
-                Namespace: "aws:elasticbeanstalk:environment:process:default"
-                OptionName: "HealthCheckPath"
-                Value: "/"
-              - 
-                ResourceName: "AWSEBV2LoadBalancerTargetGroup"
-                Namespace: "aws:elasticbeanstalk:environment:process:default"
-                OptionName: "Port"
-                Value: "80"
+  ElasticBeanstalkConfigurationTemplate:
+    Type: "AWS::ElasticBeanstalk::ConfigurationTemplate"
+    Properties:
+      ApplicationName: !Ref ElasticBeanstalkApp
+      SolutionStackName: "64bit Amazon Linux 2 v3.2.15 running Corretto 8"
+      OptionSettings:
+        - Namespace: "aws:elasticbeanstalk:environment"
+          OptionName: "EnvironmentType"
+          Value: "LoadBalanced"
+        - ResourceName: "AWSEBEC2LaunchTemplate"
+          Namespace: "aws:autoscaling:launchconfiguration"
+          OptionName: "IamInstanceProfile"
+          Value: "aws-elasticbeanstalk-ec2-role"
+        - ResourceName: "AWSEBAutoScalingGroup"
+          Namespace: "aws:autoscaling:asg"
+          OptionName: "MaxSize"
+          Value: "4"
+        - ResourceName: "AWSEBAutoScalingGroup"
+          Namespace: "aws:autoscaling:asg"
+          OptionName: "MinSize"
+          Value: "1"
+        - Namespace: "aws:autoscaling:launchconfiguration"
+          OptionName: "InstanceType"
+          Value: "t2.micro"
+        - Namespace: "aws:cloudformation:template:parameter"
+          OptionName: "EnvironmentVariables"
+          Value: "M2=/usr/local/apache-maven/bin,M2_HOME=/usr/local/apache-maven,GRADLE_HOME=/usr/local/gradle"
+        - Namespace: "aws:cloudformation:template:parameter"
+          OptionName: "InstancePort"
+          Value: "80"
+        - Namespace: "aws:cloudformation:template:parameter"
+          OptionName: "InstanceTypeFamily"
+          Value: "t2"
+        - Namespace: "aws:ec2:instances"
+          OptionName: "InstanceTypes"
+          Value: "t2.micro, t2.small"
+        - Namespace: "aws:elasticbeanstalk:application:environment"
+          OptionName: "M2"
+          Value: "/usr/local/apache-maven/bin"
+        - Namespace: "aws:elasticbeanstalk:application:environment"
+          OptionName: "M2_HOME"
+          Value: "/usr/local/apache-maven"
+        - Namespace: "aws:elasticbeanstalk:command"
+          OptionName: "DeploymentPolicy"
+          Value: "AllAtOnce"
+        - ResourceName: "AWSEBV2LoadBalancerTargetGroup"
+          Namespace: "aws:elasticbeanstalk:environment:process:default"
+          OptionName: "HealthCheckPath"
+          Value: "/"
+        - ResourceName: "AWSEBV2LoadBalancerTargetGroup"
+          Namespace: "aws:elasticbeanstalk:environment:process:default"
+          OptionName: "Port"
+          Value: "80"
