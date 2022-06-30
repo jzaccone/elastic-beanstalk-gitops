@@ -6,7 +6,7 @@ Parameters:
     Description: The name of the Elastic Beanstalk Application to deploy
     Type: String
   ElasticBeanstalkAppVersion:
-    Default: "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4"
+    Default: "ebtest2-elasticbeanstalkapplicationversion2-jy3i6jhqw098"
     Description: A version of the Elastic Beanstalk App to deploy
     Type: String
   ElasticBeanstalkEnvName:
