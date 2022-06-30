@@ -2,11 +2,11 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "Stack to deploy spring hello world"
 Parameters:
   ElasticBeanstalkApp:
-    Default: "ElasticBeanstalkApplication"
+    Default: "CFT-deploy-from-cli"
     Description: The name of the Elastic Beanstalk Application to deploy
     Type: String
   ElasticBeanstalkAppVersion:
-    Default: "ElasticBeanstalkApplicationVersion2"
+    Default: "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4"
     Description: A version of the Elastic Beanstalk App to deploy
     Type: String
 Resources:
