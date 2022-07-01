@@ -32,11 +32,12 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           for d in */ ; do
-            if git diff --quiet HEAD~1 HEAD -- $d
+            git diff --quiet HEAD~1 HEAD -- $d
+            if [ $? -eq 0 ] 
             then
-              echo $d changes: yes 
+              echo $d changes: no 
             else
-              echo $d changes: no  
+              echo $d changes: yes  
             fi
           done
 
