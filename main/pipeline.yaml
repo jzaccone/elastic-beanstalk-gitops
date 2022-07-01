@@ -1,13 +1,14 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-# TODOs automate permissions to have access to environments they create? (hard to bootstrap)
-#  add codestart-connection resource for github
-#  minimize permissions https://aws.amazon.com/blogs/security/remove-unnecessary-permissions-in-your-iam-policies-by-using-service-last-accessed-data/
-#      maybe these permissions are better than s3:*
-#  https://camsaul.com/aws/2019/04/26/redeploying-elastic-beanstalk-permissions.html
-# dynamically link inputs: app name and app version
-# add links to resources from pipelines
-# break apart into modules
+# TODOs
+# - automate permissions to have access to environments they create? (hard to bootstrap)
+# - add codestart-connection resource for github
+# - minimize permissions using access anaylzer. Pipeline role and github actions role
+# https://aws.amazon.com/blogs/security/remove-unnecessary-permissions-in-your-iam-policies-by-using-service-last-accessed-data/
+# - dynamically link inputs: app name and app version
+# - add links to resources from pipelines in UI
+# - Automate new applicationversions, link to pipeline
+# - Break pipeline into modules separating pipeline role from function
 
 Description: >
   AWS CloudFormation Sample Template Continuous Delievery: This template
@@ -15,39 +16,32 @@ Description: >
   process for AWS CloudFormation stacks.
 
 Parameters:
-  # PipelineName:
-  #   Description: A name for pipeline
-  #   Type: String
-  TemplateFileName:
-    Default: main/cloudformation.yaml
+  PipelineName:
+    Description: A name for pipeline
+    Type: String
+  StackTemplateFile:
     Description: The file name of the WordPress template
     Type: String
-  StackName:
-    Default: spring-stack-gitops
-    Description: A name for the production WordPress stack
+  StackConfigFile:
+    Description: The configuration file name for the production WordPress stack
     Type: String
-  # StackConfig:
-  #   Default: stack-configuration.yaml
-  #   Description: The configuration file name for the production WordPress stack
-  #   Type: String
-  ChangeSetName:
-    Default: UpdatePreview-SpringApp
-    Description: A name for the production WordPress stack change set
+  StackName:
+    Description: A name for the production WordPress stack
     Type: String
 
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
-      # - Label:
-      #     default: "CodePipeline Settings"
-      #   Parameters:
-      #     - PipelineName
+      - Label:
+          default: "CodePipeline Settings"
+        Parameters:
+          - PipelineName
       - Label:
           default: "Production Stack Settings"
         Parameters:
-          - ChangeSetName
+          - StackTemplateFile
+          - StackConfigFile
           - StackName
-          # - StackConfig
 
 Resources:
   ArtifactStoreBucket:
@@ -63,7 +57,7 @@ Resources:
         Location: !Ref "ArtifactStoreBucket"
         Type: S3
       DisableInboundStageTransitions: []
-      Name: "Gitops-pipeline" #!Ref "PipelineName"
+      Name: !Ref "PipelineName"
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
         - Name: "Source"
@@ -98,9 +92,9 @@ Resources:
                 ActionMode: CHANGE_SET_REPLACE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref StackName
-                ChangeSetName: !Ref ChangeSetName
-                # TemplateConfiguration: !Sub "TemplateSource::${StackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+                ChangeSetName: !Sub "${StackName}-ChangeSet"
+                TemplatePath: !Sub "TemplateSource::${StackTemplateFile}"
+                TemplateConfiguration: !Sub "TemplateSource::${StackConfigFile}"
               RunOrder: "1"
             - Name: ApproveChangeSet
               ActionTypeId:
@@ -119,7 +113,7 @@ Resources:
                 Version: "1"
               Configuration:
                 ActionMode: CHANGE_SET_EXECUTE
-                ChangeSetName: !Ref ChangeSetName
+                ChangeSetName: !Sub "${StackName}-ChangeSet"
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref StackName
               RunOrder: "3"

@@ -41,7 +41,7 @@ jobs:
             fi
           done
 
-      - name: "Configure AWS Credentials"
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

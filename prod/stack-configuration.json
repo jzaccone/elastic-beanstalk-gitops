@@ -1,8 +1,0 @@
-{
-  "Parameters" : {
-    "PipelineFile" : "main/pipeline.yaml",
-    "ElasticBeanstalkEnvName" : "GitOpsProd",
-    "ElasticBeanstalkApp" : "CFT-deploy-from-cli",
-    "ElasticBeanstalkAppVersion" : "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4"
-  }
-}
