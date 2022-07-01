@@ -7,6 +7,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 #  https://camsaul.com/aws/2019/04/26/redeploying-elastic-beanstalk-permissions.html
 # dynamically link inputs: app name and app version
 # add links to resources from pipelines
+# break apart into modules
 
 Description: >
   AWS CloudFormation Sample Template Continuous Delievery: This template
