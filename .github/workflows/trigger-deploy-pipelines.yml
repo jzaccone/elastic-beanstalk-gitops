@@ -27,20 +27,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      # Runs a set of commands using the runners shell
-      - name: Check for changed folders
-        run: |
-          cd $GITHUB_WORKSPACE
-          for d in */ ; do
-            git diff --quiet HEAD~1 HEAD -- $d
-            if [ $? -eq 0 ] 
-            then
-              echo $d changes: no 
-            else
-              echo $d changes: yes  
-            fi
-          done
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -49,4 +35,4 @@ jobs:
 
       - name: Trigger Gitops Pipeline
         run: |
-          aws codepipeline start-pipeline-execution --name Gitops-pipeline
+          scripts/trigger-or-create-pipeline.sh
