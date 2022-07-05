@@ -1,14 +1,7 @@
-[
-    {
-        "ParameterKey": "ElasticBeanstalkEnvName",
-        "ParameterValue": "GitOpsProd"
-    },
-    {
-        "ParameterKey": "ElasticBeanstalkApp",
-        "ParameterValue": "CFT-deploy-from-cli"
-    },
-    {
-        "ParameterKey": "ElasticBeanstalkAppVersion",
-        "ParameterValue": "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4"
-    }
-]
+{
+  "Parameters" : {
+    "ElasticBeanstalkEnvName" : "GitOpsProd",
+    "ElasticBeanstalkApp" : "CFT-deploy-from-cli",
+    "StackConfigElasticBeanstalkAppVersionFile" : "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4",
+  }
+}
