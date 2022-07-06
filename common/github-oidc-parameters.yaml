@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "GitHubOrg",
+        "ParameterValue": "jzaccone"
+    },
+    {
+        "ParameterKey": "RepositoryName",
+        "ParameterValue": "elastic-beanstalk-gitops"
+    }
+]

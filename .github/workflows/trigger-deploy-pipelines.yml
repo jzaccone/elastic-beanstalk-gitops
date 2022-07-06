@@ -35,4 +35,4 @@ jobs:
 
       - name: Trigger Gitops Pipeline
         run: |
-          scripts/trigger-or-create-pipeline.sh
+          common/scripts/trigger-or-create-pipeline.sh
