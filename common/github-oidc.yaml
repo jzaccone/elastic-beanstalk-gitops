@@ -34,7 +34,7 @@ Resources:
           PolicyDocument:
             Statement:
               - Action:
-                  - "iam:CreateRole"
+                  - "iam:PassRole"
                 Effect: Allow
                 Resource: "*"
       ManagedPolicyArns:
