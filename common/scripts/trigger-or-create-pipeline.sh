@@ -41,9 +41,9 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
         echo "something went wrong"
         exit -1
       fi
+      
+      echo "A CFT to create the stack has been created. The pipeline will trigger automatically after creation."
 
-  then
-  echo "A CFT to create the stack has been created. The pipeline will trigger automatically after creation."
     else
       echo "The pipeline $PIPELINE_NAME exists, triggering the pipeline!"
       aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
