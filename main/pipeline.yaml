@@ -2,13 +2,23 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 # TODOs
 # - automate permissions to have access to environments they create? (hard to bootstrap)
-# - add codestart-connection resource for github
+
 # - minimize permissions using access anaylzer. Pipeline role and github actions role
 # https://aws.amazon.com/blogs/security/remove-unnecessary-permissions-in-your-iam-policies-by-using-service-last-accessed-data/
 # - dynamically link inputs: app name and app version
 # - add links to resources from pipelines in UI
 # - Automate new applicationversions, link to pipeline
 # - Break pipeline into modules separating pipeline role from function
+
+# - add gate for production
+#
+# Document bootstrapping
+# - add codestart-connection resource for github
+# - github OIDC credentials
+#
+# How to update pipelines when you have a pipeline change?
+#
+#
 
 Description: >
   AWS CloudFormation Sample Template Continuous Delievery: This template
@@ -71,6 +81,7 @@ Resources:
               Configuration:
                 BranchName: "main"
                 ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/fd93dc2b-3ec1-4a99-99bf-9cba4d26159d"
+                DetectChanges: "false"
                 FullRepositoryId: "jzaccone/elastic-beanstalk-gitops"
                 OutputArtifactFormat: "CODE_ZIP"
               OutputArtifacts:
@@ -78,7 +89,7 @@ Resources:
               Region: !Ref AWS::Region
               Namespace: "SourceVariables"
               RunOrder: 1
-        - Name: ProdStage
+        - Name: DeployStage
           Actions:
             - Name: CreateChangeSet
               ActionTypeId:

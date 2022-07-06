@@ -1,8 +1,18 @@
-{
-  "Parameters" : {
-    "PipelineName" : "PIPELINE_NAME",
-    "StackTemplateFile" : "STACK_TEMPLATE_FILE",
-    "StackConfigFile" : "STACK_CONFIG_FILE",
-    "StackName" : "STACK_NAME"
-  }
-}
+[
+    {
+        "ParameterKey": "PipelineName",
+        "ParameterValue": "PIPELINE_NAME"
+    },
+    {
+        "ParameterKey": "StackTemplateFile",
+        "ParameterValue": "STACK_TEMPLATE_FILE"
+    },
+    {
+        "ParameterKey": "StackConfigFile",
+        "ParameterValue": "STACK_CONFIG_FILE"
+    },
+    {
+        "ParameterKey": "StackName",
+        "ParameterValue": "STACK_NAME"
+    }
+]
