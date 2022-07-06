@@ -7,7 +7,7 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
   fi
 
   git diff --quiet HEAD~1 HEAD -- $DIR_NAME
-  if [ $? -eq 0 ] 
+  if [ ! $? -eq 0 ] 
   then
     echo "Detected changes in the $DIR_NAME branch."
 

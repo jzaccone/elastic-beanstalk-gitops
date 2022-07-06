@@ -29,6 +29,14 @@ Resources:
             Condition:
               StringLike:
                 token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${RepositoryName}:*
+      Policies:
+        - PolicyName: CodePipelineAccess
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - "iam:CreateRole"
+                Effect: Allow
+                Resource: "*"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
         - "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess"
