@@ -1,5 +1,4 @@
 #!/bin/bash
-
 for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
   # Skip the common branch with common resources
   if [ "$DIR_NAME" = "common" ]; then
@@ -37,10 +36,22 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
       cat $PIPELINE_CONFIG_COPY
 
       aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
-      echo "A CFT to create the stack has been created. The pipeline will trigger automatically after creation."
+      if [ ! $? -eq 0 ] 
+      then
+        echo "something went wrong"
+        exit -1
+      fi
+
+  then
+  echo "A CFT to create the stack has been created. The pipeline will trigger automatically after creation."
     else
       echo "The pipeline $PIPELINE_NAME exists, triggering the pipeline!"
       aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
+      if [ ! $? -eq 0 ] 
+      then
+        echo "something went wrong"
+        exit -1
+      fi
     fi
 
   fi
