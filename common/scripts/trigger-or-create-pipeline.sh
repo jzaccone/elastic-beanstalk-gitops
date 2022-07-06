@@ -36,7 +36,7 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
       echo "Pipeline Config:"
       cat $PIPELINE_CONFIG_COPY
 
-      # aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
+      aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
       if [ ! $? -eq 0 ] 
       then
         echo "something went wrong"
