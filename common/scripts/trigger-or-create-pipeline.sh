@@ -27,15 +27,15 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
       PIPELINE_CONFIG_COPY="pipeline-config-${DIR_NAME}.json"
       cp common/pipeline-config.json $PIPELINE_CONFIG_COPY
 
-      sed -i '' "s@PIPELINE_NAME@$PIPELINE_NAME@g" $PIPELINE_CONFIG_COPY
-      sed -i '' "s@STACK_TEMPLATE_FILE@common/cloudformation.yaml@g" $PIPELINE_CONFIG_COPY
-      sed -i '' "s@STACK_CONFIG_FILE@${DIR_NAME}/stack-config.json@g" $PIPELINE_CONFIG_COPY
-      sed -i '' "s@STACK_NAME@spring-eb-${DIR_NAME}@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@PIPELINE_NAME@$PIPELINE_NAME@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_TEMPLATE_FILE@common/cloudformation.yaml@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_CONFIG_FILE@${DIR_NAME}/stack-config.json@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_NAME@spring-eb-${DIR_NAME}@g" $PIPELINE_CONFIG_COPY
 
       echo "Pipeline Config:"
       cat $PIPELINE_CONFIG_COPY
 
-      aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
+      # aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
       if [ ! $? -eq 0 ] 
       then
         echo "something went wrong"
@@ -46,7 +46,7 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
 
     else
       echo "The pipeline $PIPELINE_NAME exists, triggering the pipeline!"
-      aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
+      # aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
       if [ ! $? -eq 0 ] 
       then
         echo "something went wrong"

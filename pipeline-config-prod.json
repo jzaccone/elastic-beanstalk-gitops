@@ -1,0 +1,18 @@
+[
+    {
+        "ParameterKey": "PipelineName",
+        "ParameterValue": "spring-gitops-prod"
+    },
+    {
+        "ParameterKey": "StackTemplateFile",
+        "ParameterValue": "common/cloudformation.yaml"
+    },
+    {
+        "ParameterKey": "StackConfigFile",
+        "ParameterValue": "prod/stack-config.json"
+    },
+    {
+        "ParameterKey": "StackName",
+        "ParameterValue": "spring-eb-prod"
+    }
+]
