@@ -8,7 +8,7 @@ Resources:
     Properties:
       Name: "deploy-springboot-to-dev"
       Source:
-        BuildSpec: "common/deploy-to-dev.yaml"
+        BuildSpec: "common/buildspec/deploy-to-dev.yaml"
         Type: "CODEPIPELINE"
       Artifacts:
         Type: "CODEPIPELINE"

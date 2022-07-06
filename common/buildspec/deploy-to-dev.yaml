@@ -1,0 +1,36 @@
+version: 0.2
+env:
+  git-credential-helper: yes
+  variables:
+    EB_APP: "CFT-deploy-from-cli"
+    S3_BUCK: "the-build-artifacts"
+    EB_APP_LABEL: "6e3d08599c97897e39014cdccf1d9fe8601bc639"
+    S3_KEY: "something-6e3d08599c97897e39014cdccf1d9fe8601bc639.war"
+
+phases:
+  # install:
+  #   runtime-versions:
+  #     docker: 18
+  #     java: corretto8
+  #   commands:
+  #     - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain uzurv --domain-owner 371707344195 --query authorizationToken --output text`
+  #     - cp ci/maven/settings.xml /root/.m2/settings.xml
+  build:
+    commands:
+      # Add new EB application
+      # - echo Entered the build phase...
+      # - echo artifact is here- $artifactS3Key
+      # - aws elasticbeanstalk create-application-version --application-name "$EB_APP" --version-label "$EB_APP_LABEL" --source-bundle S3Bucket="$S3_BUCK",S3Key="S3_KEY""
+
+      # Change gitops repo to new version
+      - git checkout main
+      - git config --global user.email "john.zaccone@gmail.com"
+      - git config --global user.name "John Zaccone"
+      - jq '.Parameters.ElasticBeanstalkAppVersion = "6e3d08599c97897e39014cdccf1d9fe8601bc639"' dev/stack-config.json > dev/stack-config.json
+      - git add .
+      - git commit -m "deploying new dev version"
+      - git push --set-upstream origin main
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
