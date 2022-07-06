@@ -1,18 +1,32 @@
 #!/bin/bash
-for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
+CF_DIR="common/cloudformation/cloudformation.yaml"
+
+PIPELINE="pipeline.yaml"
+PIPELINE_PREFIX="spring-gitops-"
+PIPELINE_STACK_POSTFIX="-pipeline"
+
+EB_STACK="cloudformation.yaml"
+EB_STACK_CONFIG="stack-config.json"
+EB_STACK_PREFIX="spring-eb-"
+
+
+for ENV_DIR in $(ls -d */| sed 's:/*$::') ; do
   # Skip the common branch with common resources
-  if [ "$DIR_NAME" = "common" ]; then
+  if [ "$ENV_DIR" = "common" ]; then
     continue
   fi
 
-  echo "Checking for changes in $DIR_NAME"
-  git diff --quiet HEAD~1 HEAD -- $DIR_NAME
+  PIPELINE_NAME="${PIPELINE_PREFIX}-${ENV_DIR}"
+  PIPELINE_CONFIG_COPY="pipeline-config-${ENV_DIR}.json"
+  STACK_NAME=${PIPELINE_NAME}-${PIPELINE_STACK_POSTFIX}
+  EB_STACK_NAME=${EB_STACK_PREFIX}${ENV_DIR}
+
+  echo "Checking for changes in $ENV_DIR"
+  git diff --quiet HEAD~1 HEAD -- $ENV_DIR
   if [ ! $? -eq 0 ] 
   then
-    echo "Detected changes in the $DIR_NAME branch."
+    echo "Detected changes in the $ENV_DIR branch."
 
-    # Name convention
-    PIPELINE_NAME="spring-gitops-${DIR_NAME}"
     echo "Checking if pipeline $PIPELINE_NAME exists"
     PIPELINE_EXISTS=false
     for pipeline in `aws codepipeline list-pipelines | yq '.pipelines[].name'`; do
@@ -25,18 +39,17 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
     if [ ! "$PIPELINE_EXISTS" = true ] ; then
       echo "The pipeline $PIPELINE_NAME does not exist, creating it..."
 
-      PIPELINE_CONFIG_COPY="pipeline-config-${DIR_NAME}.json"
-      cp common/pipeline-config.json $PIPELINE_CONFIG_COPY
+      cp ${CF_DIR}/pipeline-config.json $PIPELINE_CONFIG_COPY
 
       sed -i "s@PIPELINE_NAME@$PIPELINE_NAME@g" $PIPELINE_CONFIG_COPY
-      sed -i "s@STACK_TEMPLATE_FILE@common/cloudformation.yaml@g" $PIPELINE_CONFIG_COPY
-      sed -i "s@STACK_CONFIG_FILE@${DIR_NAME}/stack-config.json@g" $PIPELINE_CONFIG_COPY
-      sed -i "s@STACK_NAME@spring-eb-${DIR_NAME}@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_TEMPLATE_FILE@${CF_DIR}/${EB_STACK}@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_CONFIG_FILE@${ENV_DIR}/${EB_STACK_CONFIG}@g" $PIPELINE_CONFIG_COPY
+      sed -i "s@STACK_NAME@${EB_STACK_NAME}@g" $PIPELINE_CONFIG_COPY
 
       echo "Pipeline Config:"
       cat $PIPELINE_CONFIG_COPY
 
-      aws cloudformation create-stack --stack-name ${PIPELINE_NAME}-pipeline --template-body "file://$(pwd)/common/pipeline.yaml" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
+      aws cloudformation create-stack --stack-name ${STACK_NAME} --template-body "file://$(pwd)/${CF_HOME}/${PIPELINE}" --parameters "file://$(pwd)/${PIPELINE_CONFIG_COPY}" --capabilities CAPABILITY_NAMED_IAM 
       if [ ! $? -eq 0 ] 
       then
         echo "something went wrong"
