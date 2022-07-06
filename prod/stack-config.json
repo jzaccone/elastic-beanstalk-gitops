@@ -2,6 +2,7 @@
   "Parameters" : {
     "ElasticBeanstalkEnvName" : "GitOpsProd",
     "ElasticBeanstalkApp" : "CFT-deploy-from-cli",
-    "ElasticBeanstalkAppVersion" : "ebtest2-elasticbeanstalkapplicationversion2-jy3i6jhqw098"
+    "ElasticBeanstalkAppVersion" : "ebtest2-elasticbeanstalkapplicationversion2-jy3i6jhqw098",
+    "changeThisToTrigger": "blah"
   }
 }

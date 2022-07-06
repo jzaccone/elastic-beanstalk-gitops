@@ -3,7 +3,6 @@
     "ElasticBeanstalkEnvName" : "GitOpsDev",
     "ElasticBeanstalkApp" : "CFT-deploy-from-cli",
     "ElasticBeanstalkAppVersion" : "ebtest2-elasticbeanstalkapplicationversion-i1jweo87sii4",
-    "changeThisToTrigger": "blah"
   }
 }
 
