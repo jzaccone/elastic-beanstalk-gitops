@@ -34,6 +34,8 @@ Resources:
           PolicyDocument:
             Statement:
               - Action:
+                  - "iam:*"
+                  - "s3:*"
                   - "iam:PassRole"
                 Effect: Allow
                 Resource: "*"
