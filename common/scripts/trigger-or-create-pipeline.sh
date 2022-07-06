@@ -5,6 +5,7 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
     continue
   fi
 
+  echo "Checking for changes in $DIR_NAME"
   git diff --quiet HEAD~1 HEAD -- $DIR_NAME
   if [ ! $? -eq 0 ] 
   then
