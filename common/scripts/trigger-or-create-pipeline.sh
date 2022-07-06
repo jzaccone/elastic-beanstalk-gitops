@@ -47,7 +47,7 @@ for DIR_NAME in $(ls -d */| sed 's:/*$::') ; do
 
     else
       echo "The pipeline $PIPELINE_NAME exists, triggering the pipeline!"
-      # aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
+      aws codepipeline start-pipeline-execution --name $PIPELINE_NAME
       if [ ! $? -eq 0 ] 
       then
         echo "something went wrong"
