@@ -23,7 +23,7 @@ phases:
       - git checkout main
       - git config --global user.email "john.zaccone@gmail.com"
       - git config --global user.name "John Zaccone"
-      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "$GIT_HASH"' dev/stack-config.json ) > dev/stack-config.json
+      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' dev/stack-config.json ) > dev/stack-config.json
       - git add .
       - git commit -m "deploying new dev version"
       - git push --set-upstream origin main
