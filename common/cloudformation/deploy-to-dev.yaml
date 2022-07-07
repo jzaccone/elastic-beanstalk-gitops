@@ -37,5 +37,6 @@ Resources:
                   - "s3:*"
                   - "logs:*"
                   - "codestar-connections:UseConnection"
+                  - "elasticbeanstalk:CreateApplicationVersion"
                 Effect: Allow
                 Resource: "*"
