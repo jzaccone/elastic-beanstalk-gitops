@@ -18,7 +18,7 @@ for ENV_DIR in $(ls -d */| sed 's:/*$::') ; do
 
   PIPELINE_NAME="${PIPELINE_PREFIX}${ENV_DIR}"
   PIPELINE_CONFIG_COPY="pipeline-config-${ENV_DIR}.json"
-  STACK_NAME=${PIPELINE_NAME}-${PIPELINE_STACK_POSTFIX}
+  STACK_NAME=${PIPELINE_NAME}${PIPELINE_STACK_POSTFIX}
   EB_STACK_NAME=${EB_STACK_PREFIX}${ENV_DIR}
 
   echo "Checking for changes in $ENV_DIR"
