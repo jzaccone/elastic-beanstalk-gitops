@@ -1,11 +1,11 @@
 #!/bin/bash
-CF_DIR="common/cloudformation/cloudformation.yaml"
+CF_DIR="common/cloudformation"
 
 PIPELINE="pipeline.yaml"
 PIPELINE_PREFIX="spring-gitops-"
 PIPELINE_STACK_POSTFIX="-pipeline"
 
-EB_STACK="cloudformation.yaml"
+EB_STACK="eb-stack.yaml"
 EB_STACK_CONFIG="stack-config.json"
 EB_STACK_PREFIX="springboot-eb-"
 
