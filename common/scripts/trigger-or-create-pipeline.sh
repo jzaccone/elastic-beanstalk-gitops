@@ -7,7 +7,7 @@ PIPELINE_STACK_POSTFIX="-pipeline"
 
 EB_STACK="cloudformation.yaml"
 EB_STACK_CONFIG="stack-config.json"
-EB_STACK_PREFIX="spring-eb-"
+EB_STACK_PREFIX="springboot-eb-"
 
 
 for ENV_DIR in $(ls -d */| sed 's:/*$::') ; do
