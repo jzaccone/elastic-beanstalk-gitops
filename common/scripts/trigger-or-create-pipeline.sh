@@ -16,7 +16,7 @@ for ENV_DIR in $(ls -d */| sed 's:/*$::') ; do
     continue
   fi
 
-  PIPELINE_NAME="${PIPELINE_PREFIX}-${ENV_DIR}"
+  PIPELINE_NAME="${PIPELINE_PREFIX}${ENV_DIR}"
   PIPELINE_CONFIG_COPY="pipeline-config-${ENV_DIR}.json"
   STACK_NAME=${PIPELINE_NAME}-${PIPELINE_STACK_POSTFIX}
   EB_STACK_NAME=${EB_STACK_PREFIX}${ENV_DIR}
@@ -56,7 +56,7 @@ for ENV_DIR in $(ls -d */| sed 's:/*$::') ; do
         exit -1
       fi
       
-      echo "A CFT to create the stack has been created. The pipeline will trigger automatically after creation."
+      echo "A CF stack to create the pipeline has been created. The pipeline will trigger automatically after creation."
 
     else
       echo "The pipeline $PIPELINE_NAME exists, triggering the pipeline!"
