@@ -1,1 +1,1 @@
-{ "Parameters": { "ElasticBeanstalkEnvName": "Development", "ElasticBeanstalkApp": "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion": "$GIT_HASH" } }
+{ "Parameters": { "ElasticBeanstalkEnvName": "Development", "ElasticBeanstalkApp": "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion": "f6e4178b73724a3a7efc7e354568d9f694aa2579" } }
