@@ -17,6 +17,7 @@ phases:
     commands:
       # Add new EB application
       - echo Entered the build phase...
+      - echo $GIT_HASH
       - echo git hash is $CODEBUILD_RESOLVED_SOURCE_VERSION
       - aws elasticbeanstalk create-application-version --application-name "$EB_APP" --version-label "$CODEBUILD_RESOLVED_SOURCE_VERSION" --source-bundle S3Bucket="springboot-$CODEBUILD_RESOLVED_SOURCE_VERSION",S3Key="S3_KEY""
 
