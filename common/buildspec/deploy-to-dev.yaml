@@ -23,7 +23,16 @@ phases:
       - git checkout main
       - git config --global user.email "john.zaccone@gmail.com"
       - git config --global user.name "John Zaccone"
-      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' dev/stack-config.json ) > dev/stack-config.json
+
+      # Create gitops env if it doesn't exist for branch
+      - |
+        if [ ! -d $BranchName ]; then
+          mkdir $BranchName
+          echo "{"Parameters" : {"ElasticBeanstalkEnvName" : "Prod","ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}} > $BranchName/stack-config.json
+        fi
+
+      # Change gitops repo to new version
+      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' dev/stack-config.json ) > $BranchName/stack-config.json
       - git add .
       - git commit -m "deploying new dev version"
       - git push --set-upstream origin main
