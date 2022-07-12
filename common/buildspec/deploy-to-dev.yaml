@@ -26,13 +26,13 @@ phases:
 
       # Create gitops env if it doesn't exist for branch
       - |
-        if [ ! -d $BranchName ]; then
-          mkdir $BranchName
-          echo '{"Parameters" : {"ElasticBeanstalkEnvName" : "Prod","ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $BranchName/stack-config.json
+        if [ ! -d $EnvName ]; then
+          mkdir $EnvName
+          echo '{"Parameters" : {"ElasticBeanstalkEnvName" : "Prod","ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
         fi
 
       # Change gitops repo to new version
-      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' dev/stack-config.json ) > $BranchName/stack-config.json
+      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' $EnvName/stack-config.json ) > $EnvName/stack-config.json
       - git add .
       - git commit -m "deploying new dev version"
       - git push --set-upstream origin main
