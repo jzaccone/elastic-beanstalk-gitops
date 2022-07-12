@@ -18,7 +18,9 @@ AWSTemplateFormatVersion: "2010-09-09"
 #
 # How to update pipelines when you have a pipeline change?
 #
+# How to delete environments when we are done?
 #
+# Hook app code -> deploy automatically for different feature branches
 
 Description: >
   AWS CloudFormation Sample Template Continuous Delievery: This template
