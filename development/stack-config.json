@@ -1,1 +1,1 @@
-{ "Parameters": { "ElasticBeanstalkEnvName": "Prod", "ElasticBeanstalkApp": "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion": "32a7c10df20d6eb0195439247d657f834f8458cb" } }
+{ "Parameters": { "ElasticBeanstalkEnvName": "Prod", "ElasticBeanstalkApp": "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion": "b8fef051ca1c38aee903068dddb238db65cdc33d" } }
