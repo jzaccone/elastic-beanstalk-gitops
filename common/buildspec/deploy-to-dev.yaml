@@ -16,16 +16,13 @@ phases:
   build:
     commands:
       # Add new EB application
-      - echo Entered the build phase for git commit hash $GIT_HASH...
+      - echo Entered the build phase for git commit hash $GIT_HASH... and $EnvName
       - aws elasticbeanstalk create-application-version --application-name "$EB_APP" --version-label "$GIT_HASH" --source-bundle S3Bucket="$S3_BUCK",S3Key="springboot-$GIT_HASH.war" || true
 
       # Change gitops repo to new version
       - git checkout main
       - git config --global user.email "john.zaccone@gmail.com"
       - git config --global user.name "John Zaccone"
-
-      - |
-        echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
 
       # Create gitops env if it doesn't exist for branch
       - |
