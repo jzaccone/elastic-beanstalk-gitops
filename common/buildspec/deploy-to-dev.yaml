@@ -28,11 +28,14 @@ phases:
       - |
         if [ ! -d $EnvName ]; then
           mkdir $EnvName
-          echo '{"Parameters" : {"ElasticBeanstalkEnvName" : testing, "ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
+          # echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : '$GIT_HASH'}}' > $EnvName/stack-config.json
         fi
 
+      - echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : '$GIT_HASH'}}' > $EnvName/stack-config.json
+     
+
       # Change gitops repo to new version
-      - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "12345"' featz/stack-config.json ) > $EnvName/stack-config.json
+      # - cat <<< $(jq '.Parameters.ElasticBeanstalkAppVersion = "'$GIT_HASH'"' $EnvName/stack-config.json ) > $EnvName/stack-config.json
       - git add .
       - git commit -m "deploying new version from CD automation"
       - git push --set-upstream origin main
