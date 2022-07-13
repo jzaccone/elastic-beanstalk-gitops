@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       # Add new EB application
-      - echo Entered the build phase...
+      - echo Entered the build phase for git commit hash $GIT_HASH...
       - aws elasticbeanstalk create-application-version --application-name "$EB_APP" --version-label "$GIT_HASH" --source-bundle S3Bucket="$S3_BUCK",S3Key="springboot-$GIT_HASH.war" || true
 
       # Change gitops repo to new version
