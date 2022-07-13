@@ -24,9 +24,9 @@ phases:
       - git config --global user.email "john.zaccone@gmail.com"
       - git config --global user.name "John Zaccone"
 
-      - echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' 
-      - echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
-     
+      - |
+        echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
+
       # Create gitops env if it doesn't exist for branch
       - |
         if [ ! -d $EnvName ]; then
