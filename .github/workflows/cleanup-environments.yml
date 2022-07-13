@@ -33,6 +33,6 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::384408301901:role/gitops-odic-Role-OKPOFKURRMJ4
 
-      - name: Trigger Gitops Pipeline
+      - name: Cleanup Gitops Pipeline
         run: |
           common/scripts/cleanup-environments.sh
