@@ -28,7 +28,7 @@ phases:
       - |
         if [ ! -d $EnvName ]; then
           mkdir $EnvName
-          echo '{"Parameters" : {"ElasticBeanstalkEnvName" : "$EnvName","ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
+          echo '{"Parameters" : {"ElasticBeanstalkEnvName" : '$EnvName',"ElasticBeanstalkApp" : "CFT-deploy-from-cli", "ElasticBeanstalkAppVersion" : "toBeReplaced"}}' > $EnvName/stack-config.json
         fi
 
       # Change gitops repo to new version
