@@ -36,7 +36,6 @@ Resources:
               - Action:
                   - "iam:*"
                   - "s3:*"
-                  - "iam:PassRole"
                   - "codestar-connections:*"
                 Effect: Allow
                 Resource: "*"
