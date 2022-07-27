@@ -1,4 +1,6 @@
-### The git repo is the core of the “GitOps” workflow. Following GitOps we use a git repository as the single source of truth for the state of environments. 
+### About
+
+The git repo is the core of the “GitOps” workflow. Following GitOps we use a git repository as the single source of truth for the state of environments. 
 
 ### This repo contains 
 
