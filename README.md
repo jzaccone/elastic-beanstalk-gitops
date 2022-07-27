@@ -1,6 +1,6 @@
-The git repo is the core of the “GitOps” workflow. Following GitOps we use a git repository as the single source of truth for the state of environments. 
+### The git repo is the core of the “GitOps” workflow. Following GitOps we use a git repository as the single source of truth for the state of environments. 
 
-This repo contains 
+### This repo contains 
 
 “common” → cloud formation templates to create/update environments. Also includes cloud formation templates for the deployment pipelines.
 
@@ -10,7 +10,7 @@ This repo contains
 
 Part of the configuration in each environment folder will include the application version tag for a deployable artifact in S3, docker registry or other artifact store. This artifact is the hand-off between the build and deploy process. The cloud formation templates that are executed during the deployment pipeline will take the identifier as input and should know how to download and deploy the artifact.
 
-Details about the Github Action Workflows
+### Details about the Github Action Workflows
 
 Action: Trigger or create deployment pipeline action → Listen to pushes, figures out which environment folder changed and triggers checks if the deploy pipeline exists.
 
@@ -20,7 +20,7 @@ if pipeline doesn’t exist → runs aws cloudformation create-stack to create a
 
 Action: Delete environment and pipeline action → Listen to pushes, figures out deleted environment folders, runs aws cloudformation delete-stack for both the environment and the pipeline
 
-Benefits of doing it using a GitOps workflow.
+### Benefits of doing it using a GitOps workflow.
 
 Version control over the changes of the desired state in our environments, 
 
@@ -30,4 +30,4 @@ Easy way to update environments by simply changing the configuration file. Promo
 
 Create or delete environments quickly by adding or removing folders in this repo. All the automation is taken care of in the GitHub actions workflow and the deploy pipeline that is triggered downstream.
 
-GitOps tools are widely available for Kubernetes such as ArgoCD that sync git repository and environments and show state between those two targets (“in sync” or “out of sync”). ArgoCD can detect changes from github, or the environments (environment drift). Environment drift can be detected in Cloud Formation with drift detection, but it is not done for you automatically.
+Note: GitOps tools are widely available for Kubernetes such as ArgoCD that sync git repository and environments and show state between those two targets (“in sync” or “out of sync”). ArgoCD can detect changes from github, or the environments (environment drift). Environment drift can be detected in Cloud Formation with drift detection, but it is not done for you automatically.
